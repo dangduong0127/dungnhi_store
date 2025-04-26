@@ -29,14 +29,14 @@ const createProduct = (data: ProductData) => {
   return axios.post(API_URL, data);
 };
 
-const getInforProduct = (barcode: string | number) => {
-  const API_URL = "https://go-upc.com/api/v1/code/" + barcode;
-  return axios.get(API_URL, {
-    headers: {
-      Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
-    },
-  });
-};
+// const getInforProduct = (barcode: string | number) => {
+//   const API_URL = "https://go-upc.com/api/v1/code/" + barcode;
+//   return axios.get(API_URL, {
+//     headers: {
+//       Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+//     },
+//   });
+// };
 
 export {
   test,

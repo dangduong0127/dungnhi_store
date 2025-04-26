@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, h } from "vue";
-import { NDataTable, NButton, NInputNumber } from "naive-ui";
+import { NDataTable, NButton } from "naive-ui";
 import type { DataTableColumns } from "naive-ui";
 import type { RowData } from "../../types/types";
 import formatVND from "../../utils/formatMoney";

@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { h } from "vue";
 import ErrPage from "../pages/404";
-import HomePage from "../pages/Homepage/homePage.vue";
+import HomePage from "../pages/Homepage/HomePage.vue";
 
 const routers = [
   {

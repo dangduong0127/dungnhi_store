@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { h, shallowRef, ref } from "vue";
+import { h, shallowRef } from "vue";
 import { RouterLink } from "vue-router";
 import { NMenu, NButton, NDropdown, NIcon } from "naive-ui";
 

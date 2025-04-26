@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { NButton, NInput, useNotification, useDialog } from "naive-ui";
 import { IconPlus, IconSearch, IconClose } from "../Icons";
-import RightMenu from "./right-menu/rightMenu.vue";
+import RightMenu from "./right-menu/RightMenu.vue";
 import { getProductByBarcode } from "../../api/api";
 import { ref, h, onMounted, onBeforeUnmount } from "vue";
-import AddProduct from "../addProduct/addProduct.vue";
+import AddProduct from "../addProduct/AddProduct.vue";
 import "./header.scss";
 
 const props = defineProps<{
@@ -14,9 +14,9 @@ const productData = ref<any>(null);
 const searchVal = ref("");
 const notification = useNotification();
 const dialog = useDialog();
-const barcode = ref<string>("");
+// const barcode = ref<string>("");
 let buffer: string = "";
-let timeout: any = null;
+// let timeout: any = null;
 
 const openModal = () => {
   dialog.info({

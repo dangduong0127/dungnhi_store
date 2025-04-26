@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import { ref, watch, computed, nextTick } from "vue";
+import { ref, computed, nextTick } from "vue";
 import { NButton, NInput } from "naive-ui";
 import "./styles.scss";
 import formatVND from "../../utils/formatMoney";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
-const doc = new jsPDF({
-  orientation: "landscape",
-  unit: "in",
-  format: [4, 2],
-});
+// const doc = new jsPDF({
+//   orientation: "landscape",
+//   unit: "in",
+//   format: [4, 2],
+// });
 const props = defineProps<{
   dataFromSibling?: any;
 }>();

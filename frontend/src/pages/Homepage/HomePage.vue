@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { inject, ref } from "vue";
-import DataTable from "../../components/DataTable/dataTable.vue";
+import type { Ref } from "vue";
+import DataTable from "../../components/DataTable/DataTable.vue";
 import "./homePage.scss";
-import Payment from "../../components/Payment/payment.vue";
+import Payment from "../../components/Payment/Payment.vue";
 
 const shareData = inject<Ref<any>>("shareData");
 
