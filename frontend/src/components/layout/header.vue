@@ -4,7 +4,7 @@ import { IconPlus, IconSearch, IconClose } from "../Icons";
 import RightMenu from "./right-menu/rightMenu.vue";
 import { getProductByBarcode } from "../../api/api";
 import { ref, h, onMounted, onBeforeUnmount } from "vue";
-import AddProduct from "../addProduct/AddProduct.vue";
+import AddProduct from "../addProduct/addProduct.vue";
 import "./header.scss";
 
 const props = defineProps<{
