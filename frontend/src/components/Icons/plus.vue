@@ -1,0 +1,28 @@
+<script setup lang="ts">
+defineProps({
+  size: [String, Number],
+  color: String,
+});
+</script>
+
+<template>
+  <svg
+    :width="size"
+    :height="size"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 24 24"
+  >
+    <g
+      fill="transparent"
+      :stroke="color"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M9 12h6"></path>
+      <path d="M12 9v6"></path>
+    </g>
+  </svg>
+</template>

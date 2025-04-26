@@ -1,0 +1,125 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #0070f4;
+  padding: 10px;
+  padding-bottom: 0;
+  .header-left {
+    display: flex;
+
+    .col-left-control {
+      display: flex;
+      gap: 5px;
+      .search-wrapper {
+        position: relative;
+        height: fit-content;
+        min-width: 400px;
+        div {
+          padding: 1px 5px;
+          border-radius: 7px;
+          border: none;
+        }
+        .iconSearch {
+          position: absolute;
+          left: 5px;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 999;
+        }
+      }
+      button.n-button.n-button--primary-type.n-button--medium-type {
+        height: 83%;
+        min-width: 100px;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 7px;
+      }
+    }
+    .col-right-control {
+      .header-tab-wrap {
+        max-width: 1023px;
+      }
+
+      .list-tabs {
+        display: flex;
+        list-style-type: none;
+        align-items: center;
+        gap: 1px;
+        margin: 0;
+        li {
+          margin-left: 15px;
+        }
+        .invoices {
+          // overflow-x: auto;
+          // scrollbar-width: none;
+          max-width: 1023px;
+          .invoice-inner {
+            display: inline-block;
+            position: relative;
+            padding: 10px 50px 10px 10px;
+            font-size: 18px;
+            font-weight: 700;
+            border-top-left-radius: 0.7rem;
+            border-top-right-radius: 0.7rem;
+            margin: 0;
+            background-color: #0070f4;
+            color: #fff;
+            &:hover {
+              background-color: #004492c8;
+            }
+            .single-invoice {
+              .btn-close {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                border-radius: 50%;
+                padding: 2px;
+                &:hover {
+                  background-color: #00000083;
+                }
+              }
+            }
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+          .active {
+            background-color: #eeeff1;
+            color: #000;
+            &::before {
+              content: "";
+              position: absolute;
+              display: block;
+              border-radius: 50%;
+              bottom: 0;
+              width: 1.4rem;
+              height: 1.4rem;
+              left: -1.4rem;
+              box-shadow: 0.7rem 0.7rem 0 0 #eeeff1;
+            }
+
+            &::after {
+              content: "";
+              position: absolute;
+              display: block;
+              border-radius: 50%;
+              bottom: 0;
+              width: 1.4rem;
+              height: 1.4rem;
+              right: -1.4rem;
+              box-shadow: -0.7rem 0.7rem 0 0 #eeeff1;
+              z-index: 9;
+            }
+
+            &:hover {
+              background-color: #eeeff1;
+            }
+          }
+        }
+      }
+    }
+  }
+}

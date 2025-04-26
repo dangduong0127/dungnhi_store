@@ -1,0 +1,65 @@
+.payment-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  height: 100%;
+  .payment-header {
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      .cart-seller {
+        font-weight: 600;
+        font-size: 18px;
+        color: #0070f4;
+      }
+    }
+  }
+
+  .payment-main {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    .total-wrapper,
+    .discount-wrapper {
+      display: grid;
+      grid-template-columns: 0.8fr 0.2fr 1fr;
+      justify-content: space-between;
+      gap: 10px;
+
+      .total-price {
+        text-align: right;
+      }
+
+      .discount-price {
+        text-align: right;
+      }
+    }
+
+    .customer-debt,
+    .customer-pay {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 800;
+
+      .customer-debt-price {
+        color: #0070f4;
+      }
+    }
+  }
+
+  .payment-footer {
+    .btn-buy {
+      width: 100%;
+      border-radius: 30px;
+      font-size: 20px;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 25px 0px;
+    }
+  }
+}
