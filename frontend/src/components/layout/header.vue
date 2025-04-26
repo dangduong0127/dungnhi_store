@@ -4,7 +4,7 @@ import { iconPlus, iconSearch, iconClose } from "../Icons";
 import rightMenu from "./right-menu/rightMenu.vue";
 import { getProductByBarcode } from "../../api/api";
 import { ref, h, onMounted, onBeforeUnmount } from "vue";
-import addProduct from "../addProduct/addProduct.vue";
+import AddProduct from "../addProduct/addProduct.vue";
 import "./header.scss";
 
 const props = defineProps<{
@@ -21,7 +21,7 @@ let buffer: string = "";
 const openModal = () => {
   dialog.info({
     title: "Thêm sản phẩm",
-    content: () => h(addProduct),
+    content: () => h(AddProduct),
     // positiveText: "Thêm",
     // negativeText: "Cancel",
     style: {
