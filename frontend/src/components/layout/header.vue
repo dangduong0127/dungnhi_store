@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NButton, NInput, useNotification, useDialog } from "naive-ui";
 import { IconPlus, IconSearch, IconClose } from "../Icons";
-import RightMenu from "./right-menu/RightMenu.vue";
+import RightMenu from "./right-menu/rightMenu.vue";
 import { getProductByBarcode } from "../../api/api";
 import { ref, h, onMounted, onBeforeUnmount } from "vue";
 import AddProduct from "../addProduct/AddProduct.vue";
