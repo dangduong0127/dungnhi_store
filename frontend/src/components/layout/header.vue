@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { NButton, NInput, useNotification, useDialog } from "naive-ui";
-import { IconPlus, IconSearch, IconClose } from "../Icons";
-import RightMenu from "./right-menu/rightMenu.vue";
+import { iconPlus, iconSearch, iconClose } from "../Icons";
+import rightMenu from "./right-menu/rightMenu.vue";
 import { getProductByBarcode } from "../../api/api";
 import { ref, h, onMounted, onBeforeUnmount } from "vue";
-import AddProduct from "../addProduct/addProduct.vue";
+import addProduct from "../addProduct/addProduct.vue";
 import "./header.scss";
 
 const props = defineProps<{
@@ -21,7 +21,7 @@ let buffer: string = "";
 const openModal = () => {
   dialog.info({
     title: "Thêm sản phẩm",
-    content: () => h(AddProduct),
+    content: () => h(addProduct),
     // positiveText: "Thêm",
     // negativeText: "Cancel",
     style: {
@@ -151,7 +151,7 @@ const focusInput = () => {
     <div class="header-left">
       <div class="col-left-control">
         <div class="search-wrapper">
-          <IconSearch size="24" color="#ccc" />
+          <iconSearch size="24" color="#ccc" />
           <n-input
             :value="searchVal"
             @update:value="(val) => (searchVal = val)"
@@ -175,18 +175,18 @@ const focusInput = () => {
               <div class="invoices">
                 <div class="invoice-inner">
                   <div class="single-invoice" href="">
-                    Hoá đơn 1<IconClose size="18" color="#fff" />
+                    Hoá đơn 1<iconClose size="18" color="#fff" />
                   </div>
                 </div>
                 <div class="invoice-inner active">
                   <div class="single-invoice" href="">
-                    Hoá đơn 2<IconClose size="18" color="#fff" />
+                    Hoá đơn 2<iconClose size="18" color="#fff" />
                   </div>
                 </div>
               </div>
               <li>
                 <n-button @click="openModal" quaternary
-                  ><IconPlus size="28" color="#fff"
+                  ><iconPlus size="28" color="#fff"
                 /></n-button>
               </li>
             </ul>
@@ -195,7 +195,7 @@ const focusInput = () => {
       </div>
     </div>
     <div class="header-right">
-      <RightMenu />
+      <rightMenu />
     </div>
   </header>
 </template>

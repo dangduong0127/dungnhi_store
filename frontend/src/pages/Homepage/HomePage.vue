@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { inject, ref } from "vue";
 import type { Ref } from "vue";
-import DataTable from "../../components/DataTable/dataTable.vue";
+import dataTable from "../../components/DataTable/dataTable.vue";
 import "./homePage.scss";
-import Payment from "../../components/Payment/payment.vue";
+import payment from "../../components/Payment/payment.vue";
 
 const shareData = inject<Ref<any>>("shareData");
 
@@ -22,11 +22,11 @@ const dataFromA = ref("");
 <template>
   <div class="container">
     <div class="left-side">
-      <DataTable
+      <dataTable
         :productData="shareData"
         @sendDataToSibling="dataFromA = $event"
       />
     </div>
-    <div class="right-side"><Payment :dataFromSibling="dataFromA" /></div>
+    <div class="right-side"><payment :dataFromSibling="dataFromA" /></div>
   </div>
 </template>

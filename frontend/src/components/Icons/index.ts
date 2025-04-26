@@ -1,4 +1,4 @@
-import IconPlus from "./plus.vue";
-import IconSearch from "./IosSearch.vue";
-import IconClose from "./IconClose.vue";
-export { IconPlus, IconSearch, IconClose };
+import iconPlus from "./plus.vue";
+import iconSearch from "./iosSearch.vue";
+import iconClose from "./iconClose.vue";
+export { iconPlus, iconSearch, iconClose };

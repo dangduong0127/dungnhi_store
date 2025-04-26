@@ -1,18 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
-import ErrPage from "../pages/404";
-import HomePage from "../pages/Homepage/homePage.vue";
+import errPage from "../pages/404";
+import homePage from "../pages/Homepage/homePage.vue";
 
 const routers = [
   {
     path: "/",
     name: "Home",
-    component: HomePage,
+    component: homePage,
   },
 
   {
     path: "/:catchAll(.*)",
-    name: "ErrPage",
-    component: ErrPage,
+    name: "errPage",
+    component: errPage,
   },
 ];
 

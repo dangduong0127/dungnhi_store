@@ -1,7 +1,7 @@
 import { defineComponent, h } from "vue";
 
 export default defineComponent({
-  name: "ErrPage",
+  name: "errPage",
   setup() {
     return () => h("h1", "Không tìm thấy trang");
   },
