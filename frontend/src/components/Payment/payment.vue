@@ -1,22 +1,70 @@
 <script lang="ts" setup>
-import { ref, computed, nextTick } from "vue";
-import { NButton, NInput } from "naive-ui";
+import { ref, computed, nextTick, onMounted, onUnmounted } from "vue";
+import {
+  NButton,
+  NInput,
+  NRadio,
+  NRadioButton,
+  NRadioGroup,
+  NInputNumber,
+} from "naive-ui";
 import "./styles.scss";
 import formatVND from "../../utils/formatMoney";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
-// const doc = new jsPDF({
-//   orientation: "landscape",
-//   unit: "in",
-//   format: [4, 2],
-// });
+
+const today = ref("");
+const hour = ref("");
+const mode = ref<"amount" | "percent">("amount");
+const value = ref<number | null>(null);
 const props = defineProps<{
   dataFromSibling?: any;
 }>();
 const invoiceContent = ref<HTMLElement | null>(null);
-const today = new Date().toLocaleDateString();
-const hour = new Date().getHours() + ":" + new Date().getMinutes();
+
+const padZero = (num: number) => (num < 10 ? `0${num}` : num.toString());
+const updateTime = () => {
+  const now = new Date();
+  today.value = `${padZero(now.getDate())}/${padZero(
+    now.getMonth() + 1
+  )}/${now.getFullYear()}`;
+  hour.value = `${padZero(now.getHours())}:${padZero(
+    now.getMinutes()
+  )}:${padZero(now.getSeconds())}`;
+};
 const customer_name = ref("");
+
+let timer: number | undefined = undefined;
+
+onMounted(() => {
+  updateTime(); // Cập nhật lần đầu
+  timer = setInterval(updateTime, 1000); // Cập nhật mỗi giây
+});
+
+onUnmounted(() => {
+  clearInterval(timer); // Clear khi component bị huỷ
+});
+// Formatter để hiển thị VND hoặc %
+const formatter = (val: number | null) => {
+  if (val === null) return "";
+  return mode.value === "percent" ? `${val}%` : `${val.toLocaleString()} ₫`;
+};
+
+// Parser để xử lý input từ string thành number
+const parser = (input: string) => {
+  return parseFloat(input.replace(/[^\d.]/g, ""));
+};
+
+const discountedTotal = computed(() => {
+  if (!value.value) return total_amount.value;
+
+  if (mode.value === "percent") {
+    return total_amount.value * (1 - value.value / 100);
+  } else {
+    return Math.max(0, total_amount.value - value.value);
+  }
+});
+
 const totalQuantity = computed(() => {
   return (props.dataFromSibling || []).reduce(
     (sum: number, item: any) => sum + (item.quantity ?? 0),
@@ -87,7 +135,7 @@ const invoiceHtml = computed(() => {
       </div>
       <div style="display: flex;justify-content:space-between;gap: 20px;">
           <p>Khách hàng: ${customer_name.value}</p>
-      <p>Ngày: ${today} ${hour}</p>
+      <p>Ngày: ${today.value} ${hour.value}</p>
       </div>
       <table style="width: 100%;text-align:left;border-bottom: 1px solid #ccc;border-top: 1px solid #000;padding: 10px 0;">
         <tr>
@@ -110,10 +158,20 @@ const invoiceHtml = computed(() => {
             )
             .join("") || `<tr><td colspan="4">Không có sản phẩm nào</td></tr>`
         }
+            <tr>
+                <td colspan="3">Giảm giá:</td>
+                <td>${
+                  mode.value === "percent"
+                    ? (value.value ?? 0) + "%"
+                    : value.value ?? 0 + " ₫"
+                } </td>
+            </tr>
       </table>
-      <p style="text-align: right;font-size:20px;margin-top:0;"><strong>Tổng cộng: ${formatVND(
-        total_amount.value
-      )}</strong></p>
+      <p style="text-align: right;font-size:20px;margin-top:0;"><strong>Thành tiền: ${
+        mode.value === "percent"
+          ? formatVND(total_amount.value * (1 - (value.value ?? 0) / 100))
+          : formatVND(Math.max(0, total_amount.value - (value.value ?? 0)))
+      }</strong></p>
     </div>
   `;
 });
@@ -157,23 +215,84 @@ const invoiceHtml = computed(() => {
 
         <div class="discount-wrapper">
           <div class="discount-title"><span>Giảm giá</span></div>
-          <div class="discount-main"><span>0%</span></div>
-          <div class="discount-price"><span>0</span></div>
+          <div class="discount-main">
+            <span
+              >-{{
+                mode === "percent" ? (value ?? 0) + "%" : (value ?? 0) + "₫"
+              }}</span
+            >
+          </div>
+          <!-- <div class="discount-price">
+            <div class="flex flex-col gap-4">
+              <n-radio-group
+                :value="mode"
+                @update:value="(val) => (mode = val)"
+                name="discount-mode"
+                size="medium"
+              >
+                <n-radio-button value="amount"
+                  >Giảm theo số tiền</n-radio-button
+                >
+                <n-radio-button value="percent"
+                  >Giảm theo phần trăm</n-radio-button
+                >
+              </n-radio-group>
+
+              <n-input-number
+                :value="value"
+                @update:value="(val) => (value = val)"
+                :min="0"
+                :max="mode === 'percent' ? 100 : undefined"
+                :step="mode === 'percent' ? 1 : 1000"
+                :formatter="formatter"
+                :parser="parser"
+                placeholder="Nhập giá trị"
+                size="large"
+              />
+            </div>
+          </div> -->
+
+          <div class="discount-price">
+            <div class="flex items-center gap-2">
+              <n-radio-group
+                :value="mode"
+                @update:value="(val) => (mode = val)"
+                name="discount-mode"
+                size="small"
+                class="discount-radio-group"
+              >
+                <n-input-number
+                  :value="value"
+                  @update:value="(val) => (value = val)"
+                  :min="0"
+                  :max="mode === 'percent' ? 100 : undefined"
+                  :step="mode === 'percent' ? 1 : 1000"
+                  :formatter="formatter"
+                  :parser="parser"
+                  placeholder="Nhập"
+                  size="small"
+                  class="discount-input-number"
+                />
+                <n-radio-button value="amount">VNĐ</n-radio-button>
+                <n-radio-button value="percent">%</n-radio-button>
+              </n-radio-group>
+            </div>
+          </div>
         </div>
 
         <div class="customer-debt">
           <div class="customer-debt-title"><span>Khách cần trả</span></div>
           <div class="customer-debt-price">
-            <span>{{ formatVND(total_amount) }}</span>
+            <span>{{ formatVND(discountedTotal) }}</span>
           </div>
         </div>
 
-        <div class="customer-pay">
+        <!-- <div class="customer-pay">
           <div class="customer-pay-title"><span>Khách đã trả</span></div>
           <div class="customer-pay-price">
             <span>{{ formatVND(total_amount) }}</span>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -193,5 +312,19 @@ const invoiceHtml = computed(() => {
 .n-button:focus-within {
   outline: none;
   box-shadow: none;
+}
+
+.discount-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.discount-radio-group {
+  display: flex;
+}
+
+.discount-input-number {
+  width: 120px;
 }
 </style>
