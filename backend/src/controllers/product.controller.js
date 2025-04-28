@@ -44,3 +44,27 @@ exports.getProductByBarcode = async (req, res) => {
     console.log(e);
   }
 };
+
+exports.getAllProduct = async (req, res) => {
+  try {
+    const response = await productService.handleGetAllProduct();
+    if (response.success === false) {
+      return res.status(400).json({ message: "No product found" });
+    } else {
+      return res.status(200).json(response);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+exports.deleteProductById = async (req, res) => {
+  try {
+    const response = await productService.handleDeleteProductById(
+      req.params.id
+    );
+    return res.status(200).json(response);
+  } catch (e) {
+    console.log(e);
+  }
+};

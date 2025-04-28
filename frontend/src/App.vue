@@ -4,6 +4,7 @@ import {
   NConfigProvider,
   NNotificationProvider,
   NDialogProvider,
+  NMessageProvider,
 } from "naive-ui";
 import Header from "./components/layout/header.vue";
 import Footer from "./components/layout/footer.vue";
@@ -22,12 +23,14 @@ const handleUpdate = (val: any) => {
 
 <template>
   <NConfigProvider>
-    <n-notification-provider placement="top">
-      <n-dialog-provider>
-        <Header :onUpdated="handleUpdate" />
-        <router-view />
-        <Footer />
-      </n-dialog-provider>
-    </n-notification-provider>
+    <n-message-provider>
+      <n-notification-provider placement="top">
+        <n-dialog-provider>
+          <Header :onUpdated="handleUpdate" />
+          <router-view />
+          <Footer />
+        </n-dialog-provider>
+      </n-notification-provider>
+    </n-message-provider>
   </NConfigProvider>
 </template>

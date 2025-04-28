@@ -29,8 +29,8 @@ const menuOptions = shallowRef([
     label: () =>
       h(
         RouterLink,
-        { to: "/test" },
-        { default: () => h("span", { style: "color: #fff;" }, "Báo cáo") }
+        { to: "/warehouse" },
+        { default: () => h("span", { style: "color: #fff;" }, "Kho hàng") }
       ),
     key: "static",
     icon: renderIcon(LaptopOutline),

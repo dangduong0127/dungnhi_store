@@ -38,10 +38,22 @@ const createProduct = (data: ProductData) => {
 //   });
 // };
 
+const getAllProduct = () => {
+  const API_URL = "/products/findall/getAllProduct";
+  return axios.get(API_URL);
+};
+
+const deleteProductById = (id: string | number) => {
+  const API_URL = "/products/delete/" + id;
+  return axios.delete(API_URL);
+};
+
 export {
   test,
   getProductById,
   getProductByBarcode,
   createProduct,
+  getAllProduct,
+  deleteProductById,
   // getInforProduct,
 };

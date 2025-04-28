@@ -79,3 +79,31 @@ exports.handleGetProductByBarcode = async (barcode) => {
     console.log(e);
   }
 };
+
+exports.handleGetAllProduct = async () => {
+  try {
+    const products = await Product.find();
+    console.log(products);
+    return { success: true, data: products };
+  } catch (e) {
+    return { success: false, message: "Could not fetch products" };
+  }
+};
+
+exports.handleDeleteProductById = async (id) => {
+  try {
+    const product = await Product.findByIdAndDelete(id);
+    if (!product) {
+      return {
+        status: 400,
+        message: "Product not found",
+      };
+    }
+    return {
+      status: 200,
+      message: "Product deleted successfully",
+    };
+  } catch (e) {
+    console.log(e);
+  }
+};
