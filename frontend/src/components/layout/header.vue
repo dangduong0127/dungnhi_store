@@ -173,14 +173,14 @@ const focusInput = () => {
           <div class="content-tab">
             <ul class="list-tabs">
               <div class="invoices">
-                <div class="invoice-inner">
+                <!-- <div class="invoice-inner">
                   <div class="single-invoice" href="">
                     Hoá đơn 1<iconClose size="18" color="#fff" />
                   </div>
-                </div>
+                </div> -->
                 <div class="invoice-inner active">
                   <div class="single-invoice" href="">
-                    Hoá đơn 2<iconClose size="18" color="#fff" />
+                    Hoá đơn<iconClose size="18" color="#fff" />
                   </div>
                 </div>
               </div>

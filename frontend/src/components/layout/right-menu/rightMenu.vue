@@ -16,9 +16,14 @@ watch(
   { immediate: true }
 );
 
-function renderIcon(icon: any) {
+function renderIcon(icon: any, key: string) {
   return () =>
-    h(NIcon, null, { default: () => h(icon, { style: "color: #fff;" }) });
+    h(NIcon, null, {
+      default: () =>
+        h(icon, {
+          style: activeKey.value === key ? "color: #fff;" : "color:#000",
+        }),
+    });
 }
 
 const menuOptions = shallowRef([
@@ -27,20 +32,42 @@ const menuOptions = shallowRef([
       h(
         RouterLink,
         { to: "/" },
-        { default: () => h("span", { style: "color: #fff;" }, "Trang chủ") }
+        {
+          default: () =>
+            h(
+              "span",
+              {
+                style:
+                  activeKey.value === "home" ? "color: #fff;" : "color:#000",
+              },
+              "Trang chủ"
+            ),
+        }
       ),
     key: "home",
-    icon: renderIcon(HomeOutline),
+    icon: renderIcon(HomeOutline, "home"),
   },
   {
     label: () =>
       h(
         RouterLink,
         { to: "/warehouse" },
-        { default: () => h("span", { style: "color: #fff;" }, "Kho hàng") }
+        {
+          default: () =>
+            h(
+              "span",
+              {
+                style:
+                  activeKey.value === "warehouse"
+                    ? "color: #fff;"
+                    : "color:#000",
+              },
+              "Kho hàng"
+            ),
+        }
       ),
     key: "warehouse",
-    icon: renderIcon(FileTray),
+    icon: renderIcon(FileTray, "warehouse"),
   },
 ]);
 
