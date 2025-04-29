@@ -1,13 +1,20 @@
 <script lang="ts" setup>
-import { h, shallowRef } from "vue";
-import { RouterLink } from "vue-router";
+import { ref, h, shallowRef, watch } from "vue";
+import { useRoute, RouterLink } from "vue-router";
 import { NMenu, NButton, NDropdown, NIcon } from "naive-ui";
+import { HomeOutline, FileTray, ReorderThreeOutline } from "@vicons/ionicons5";
 
-import {
-  HomeOutline,
-  LaptopOutline,
-  ReorderThreeOutline,
-} from "@vicons/ionicons5";
+const activeKey = ref("home");
+const route = useRoute();
+// const router = useRouter();
+watch(
+  () => route.path,
+  (newPath) => {
+    if (newPath === "/") activeKey.value = "home";
+    else if (newPath.startsWith("/warehouse")) activeKey.value = "warehouse";
+  },
+  { immediate: true }
+);
 
 function renderIcon(icon: any) {
   return () =>
@@ -32,8 +39,8 @@ const menuOptions = shallowRef([
         { to: "/warehouse" },
         { default: () => h("span", { style: "color: #fff;" }, "Kho hàng") }
       ),
-    key: "static",
-    icon: renderIcon(LaptopOutline),
+    key: "warehouse",
+    icon: renderIcon(FileTray),
   },
 ]);
 
@@ -58,7 +65,12 @@ const dropdownOptions = [
 
 <template>
   <div class="menu-container">
-    <n-menu :options="menuOptions" mode="horizontal" />
+    <n-menu
+      :value="activeKey"
+      @update:value="(val) => (activeKey = val)"
+      :options="menuOptions"
+      mode="horizontal"
+    />
     <n-dropdown
       trigger="click"
       :options="dropdownOptions"

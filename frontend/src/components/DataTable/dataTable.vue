@@ -89,6 +89,7 @@ const dataTable = computed<RowData[]>(() =>
     quantity: item.quantity || 0,
     description: item?.description || "Null",
     image: item?.image || "null",
+    unit: item?.unit || "No Unit",
     key: index,
   }))
 );
@@ -128,6 +129,9 @@ const columns: DataTableColumns<RowData> = [
   {
     title: "Tên sản phẩm",
     key: "name",
+    render: (row: any) => {
+      return h("span", { style: "font-weight: 600;font-size: 20px" }, row.name);
+    },
   },
   {
     title: "Số Lượng",
@@ -169,6 +173,23 @@ const columns: DataTableColumns<RowData> = [
             onClick: () => increaseQuantity(row),
           },
           { default: () => "+" }
+        ),
+        h(
+          "span",
+          {
+            style: {
+              outline: "none",
+              boxShadow: "none",
+              fontSize: "18px",
+              padding: "0px 15px",
+              backgroundColor: "#adcaffcf",
+              border: "1px solid #005bff",
+              color: "#005bff",
+              borderRadius: "7px",
+              marginLeft: "15px",
+            },
+          },
+          { default: () => row.unit }
         ),
       ]);
     },

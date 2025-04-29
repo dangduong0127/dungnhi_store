@@ -8,6 +8,16 @@ interface ProductData {
   quantity: number;
   unit: string;
 }
+interface ProductDataUpdate {
+  id: string;
+  barcode: string;
+  description: string;
+  name: string;
+  price: number;
+  image: string;
+  quantity: number;
+  unit: string;
+}
 
 const test = () => {
   const API_URL = "/users";
@@ -27,6 +37,11 @@ const getProductByBarcode = (barcode: string | number) => {
 const createProduct = (data: ProductData) => {
   const API_URL = "/products/create";
   return axios.post(API_URL, data);
+};
+
+const updateProduct = (data: ProductDataUpdate) => {
+  const API_URL = "/products/update/" + data.id;
+  return axios.put(API_URL, data);
 };
 
 // const getInforProduct = (barcode: string | number) => {
@@ -55,5 +70,6 @@ export {
   createProduct,
   getAllProduct,
   deleteProductById,
+  updateProduct,
   // getInforProduct,
 };

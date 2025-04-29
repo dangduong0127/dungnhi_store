@@ -4,12 +4,15 @@ import { ref, h, onMounted, computed } from "vue";
 import type { DataTableColumns } from "naive-ui";
 import type { RowData } from "../../types/types";
 import { getAllProduct, deleteProductById } from "../../api/api";
-import { IdCard } from "@vicons/ionicons5";
+import formatVND from "../../utils/formatMoney";
+import EditProduct from "../../components/editProduct/editProduct.vue";
 
 const products = ref<any>([]);
 const message = useMessage();
 const showModal = ref(false);
+const showModalEdit = ref(false);
 const currentRowId = ref<string | number | null>(null);
+const currentPrd = ref<any>(null);
 const submitCallback = async () => {
   try {
     if (currentRowId.value !== null) {
@@ -42,6 +45,7 @@ const data = computed(() => {
     quantity: item.quantity,
     barcode: item.barcode,
     image: item.image,
+    unit: item.unit,
   }));
 });
 
@@ -53,6 +57,13 @@ const handleDelete = async (row: any) => {
     console.log(e);
   }
 };
+
+// Handle edit product
+const handleEditProduct = async (row: any) => {
+  showModalEdit.value = true;
+  currentPrd.value = row;
+};
+
 const checkedRowKeys = ref<Array<string | number>>([]);
 const columns: DataTableColumns<RowData> = [
   {
@@ -89,48 +100,53 @@ const columns: DataTableColumns<RowData> = [
   {
     title: "Tên sản phẩm",
     key: "name",
+    render: (row: any) => {
+      return h("span", { style: "font-weight: 600;font-size: 20px" }, row.name);
+    },
   },
   {
-    title: "Số Lượng",
+    title: "Số Lượng tồn kho",
     key: "quantity",
     render: (row: any) => {
-      return h("div", { style: "display: flex;" }, [
-        h(
-          NButton,
-          {
-            size: "small",
-            style: {
-              outline: "none",
-              boxShadow: "none",
-              fontSize: "18px",
-              padding: "16px 11px",
-            },
-            // onClick: () => decreaseQuantity(row),
-          },
-          { default: () => "-" }
-        ),
+      return h("div", { style: "display: flex;gap:10px" }, [
         h(
           "span",
           {
             style:
-              "font-size: 18px;align-items: center;display: flex;text-align: center;padding: 0 10px;border-top:1px solid rgb(224, 224, 230);border-bottom:1px solid rgb(224, 224, 230)",
+              "font-size: 20px;align-items: center;display: flex;text-align: center;",
           },
           row.quantity
         ),
         h(
-          NButton,
+          "span",
           {
-            size: "small",
             style: {
               outline: "none",
               boxShadow: "none",
               fontSize: "18px",
-              padding: "16px 11px",
+              padding: "0px 15px",
+              backgroundColor: "#adcaffcf",
+              border: "1px solid #005bff",
+              color: "#005bff",
+              borderRadius: "3px",
             },
-            // onClick: () => increaseQuantity(row),
           },
-          { default: () => "+" }
+          { default: () => row.unit }
         ),
+        // h(
+        //   NButton,
+        //   {
+        //     size: "small",
+        //     style: {
+        //       outline: "none",
+        //       boxShadow: "none",
+        //       fontSize: "18px",
+        //       padding: "16px 11px",
+        //     },
+        //     // onClick: () => increaseQuantity(row),
+        //   },
+        //   { default: () => "+" }
+        // ),
       ]);
     },
   },
@@ -141,7 +157,7 @@ const columns: DataTableColumns<RowData> = [
       return h(
         "span",
         { style: "color: green;font-weight: 600;font-size: 20px" },
-        row.price
+        formatVND(row.price)
       );
     },
   },
@@ -149,15 +165,26 @@ const columns: DataTableColumns<RowData> = [
     title: "Hành động",
     key: "action",
     render: (row: any) => {
-      return h(
-        NButton,
-        {
-          size: "small",
-          type: "error",
-          onClick: () => handleDelete(row),
-        },
-        { default: () => "Xóa" }
-      );
+      return h("div", { style: "display:flex;gap: 10px" }, [
+        h(
+          NButton,
+          {
+            size: "small",
+            type: "warning",
+            onClick: () => handleEditProduct(row),
+          },
+          { default: () => "Sửa" }
+        ),
+        h(
+          NButton,
+          {
+            size: "small",
+            type: "error",
+            onClick: () => handleDelete(row),
+          },
+          { default: () => "Xóa" }
+        ),
+      ]);
     },
   },
 ];
@@ -168,15 +195,23 @@ const pagination = {
 </script>
 
 <template>
-  <h1>Kho Hang</h1>
-  <n-button @click="showModal = true"> Start me up </n-button>
+  <h1 style="text-align: center">Kho Hàng</h1>
+
+  <n-modal
+    v-model:show="showModalEdit"
+    preset="dialog"
+    title="Chỉnh sửa"
+    style="width: 1000px; background-color: #fafafa; border-radius: 12px"
+    ><EditProduct :data="currentPrd"
+  /></n-modal>
+
   <n-modal
     v-model:show="showModal"
     preset="dialog"
-    title="Dialog"
-    content="Are you sure?"
-    positive-text="Submit"
-    negative-text="Cancel"
+    title="Xoá sản phẩm"
+    content="Bạn có chắc chắn muốn xóa sản phẩm này không?"
+    positive-text="Đồng ý"
+    negative-text="Huỷ"
     @positive-click="submitCallback"
     @negative-click="cancelCallback"
   />
@@ -187,3 +222,10 @@ const pagination = {
     :pagination="pagination"
   />
 </template>
+
+<style scoped>
+.n-button:focus-within {
+  outline: none;
+  box-shadow: none;
+}
+</style>

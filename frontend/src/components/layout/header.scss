@@ -123,3 +123,11 @@ header {
     }
   }
 }
+
+.n-menu-item-content--selected {
+  border-bottom: 2px solid #fff !important;
+  background-color: #00000009;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  font-weight: bold;
+}
